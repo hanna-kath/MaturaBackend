@@ -1,0 +1,24 @@
+#
+# get patients
+#
+GET http://localhost:8080/api/patient/
+Accept: application/json
+
+#
+# create a patient
+#
+POST http://localhost:8080/api/patient/
+Content-type: application/json
+Accept: application/json
+
+{"text":null,
+ "identifier":[],
+ "active":true,
+ "name":[],
+ "telecom":[],
+ "gender":"male",
+ "birthDate":"2022-09-08T21:35:17.432Z",
+ "deceasedBoolean":false,
+ "deceasedDateTime":null,
+ "address":[]
+}
