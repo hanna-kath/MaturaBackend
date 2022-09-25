@@ -3,16 +3,15 @@ package at.spengergasse.spengermed.model;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 @Table(name = "hn_humanname")
 public class HumanName extends Element {

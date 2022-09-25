@@ -1,6 +1,8 @@
 package at.spengergasse.spengermed.model;
 
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Getter
 @Setter
+@AllArgsConstructor
 @Table(name = "re_reference")
 public class Reference extends Element {
   @Column(name = "re_reference")

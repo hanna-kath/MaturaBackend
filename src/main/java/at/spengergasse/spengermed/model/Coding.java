@@ -3,6 +3,8 @@ package at.spengergasse.spengermed.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +16,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Table(name = "co_coding")
 @SuperBuilder
+@AllArgsConstructor
 public class Coding extends Element {
 
   @Column(name = "co_system")

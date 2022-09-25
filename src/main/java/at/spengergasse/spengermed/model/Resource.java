@@ -2,6 +2,8 @@ package at.spengergasse.spengermed.model;
 
 import java.util.UUID;
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +14,7 @@ import org.hibernate.annotations.Type;
 @MappedSuperclass
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 public abstract class Resource {

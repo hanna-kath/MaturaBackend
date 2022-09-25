@@ -3,10 +3,8 @@ package at.spengergasse.spengermed.model;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
@@ -15,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @Table(name = "cc_codeableconcept")
+@AllArgsConstructor
 public class CodeableConcept extends Element {
 
   @OneToMany(cascade = CascadeType.ALL)

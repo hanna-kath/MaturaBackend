@@ -2,6 +2,8 @@ package at.spengergasse.spengermed.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +15,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @Table(name = "cp_contactpoint")
+@AllArgsConstructor
 public class ContactPoint extends Element {
 
   public enum SystemCode {

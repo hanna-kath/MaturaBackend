@@ -3,9 +3,8 @@ package at.spengergasse.spengermed.model;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
@@ -14,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Table(name = "a_address")
 @SuperBuilder
+@AllArgsConstructor
 public class Address extends Element {
   public enum UseCode {
     home,
@@ -42,6 +42,8 @@ public class Address extends Element {
 
   @ElementCollection
   @CollectionTable(name = "a_address_line")
+  @Builder.Default
+
   private List<String> line = new ArrayList<>();
 
   @Column(name = "a_city")
