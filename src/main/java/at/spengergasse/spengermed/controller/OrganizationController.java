@@ -26,9 +26,9 @@ public class OrganizationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Organization> getOrganization(@PathVariable String id) {
+    public ResponseEntity<Organization> getOrganization(@PathVariable UUID id) {
         return organizationRepository
-                .findById(UUID.fromString(id))
+                .findById(id)
                 .map(organization -> ResponseEntity.ok().body(organization))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -45,8 +45,8 @@ public class OrganizationController {
 
     @Transactional
     @PutMapping("/{id}")
-    public ResponseEntity<Organization> updateOrganization(@PathVariable(value = "id") String organizationId, @Valid @RequestBody Organization organizationDetails) {
-        return organizationRepository.findById(UUID.fromString(organizationId))
+    public ResponseEntity<Organization> updateOrganization(@PathVariable(value = "id") UUID organizationId, @Valid @RequestBody Organization organizationDetails) {
+        return organizationRepository.findById(organizationId)
                 .map(organization -> {
                     organization.setIdentifier(organizationDetails.getIdentifier());
                     organization.setActive(organizationDetails.getActive());
@@ -61,8 +61,8 @@ public class OrganizationController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Organization> deleteOrganization(@PathVariable(value = "id") String organizationId) {
-        return organizationRepository.findById(UUID.fromString(organizationId)).map(organization -> {
+    public ResponseEntity<Organization> deleteOrganization(@PathVariable(value = "id") UUID organizationId) {
+        return organizationRepository.findById(organizationId).map(organization -> {
             organizationRepository.delete(organization);
             return ResponseEntity.ok().<Organization>build();
         }).orElse(ResponseEntity.notFound().build());

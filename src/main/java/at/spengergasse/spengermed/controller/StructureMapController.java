@@ -26,9 +26,9 @@ public class StructureMapController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StructureMap> getStructureMap(@PathVariable String id) {
+    public ResponseEntity<StructureMap> getStructureMap(@PathVariable UUID id) {
         return structureMapRepository
-                .findById(UUID.fromString(id))
+                .findById(id)
                 .map(structureMap -> ResponseEntity.ok().body(structureMap))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -45,8 +45,8 @@ public class StructureMapController {
 
     @Transactional
     @PutMapping("/{id}")
-    public ResponseEntity<StructureMap> updateStructureMap(@PathVariable(value = "id") String structureMapId, @Valid @RequestBody StructureMap structureMapDetails) {
-        return structureMapRepository.findById(UUID.fromString(structureMapId))
+    public ResponseEntity<StructureMap> updateStructureMap(@PathVariable(value = "id") UUID structureMapId, @Valid @RequestBody StructureMap structureMapDetails) {
+        return structureMapRepository.findById(structureMapId)
                 .map(structureMap -> {
 
                     structureMap.setStat(structureMapDetails.getStat());
@@ -61,8 +61,8 @@ public class StructureMapController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<StructureMap> deleteStructureMap(@PathVariable(value = "id") String structureMapID) {
-        return structureMapRepository.findById(UUID.fromString(structureMapID)).map(structureMap -> {
+    public ResponseEntity<StructureMap> deleteStructureMap(@PathVariable(value = "id") UUID structureMapID) {
+        return structureMapRepository.findById(structureMapID).map(structureMap -> {
             structureMapRepository.delete(structureMap);
             return ResponseEntity.ok().<StructureMap>build();
         }).orElse(ResponseEntity.notFound().build());

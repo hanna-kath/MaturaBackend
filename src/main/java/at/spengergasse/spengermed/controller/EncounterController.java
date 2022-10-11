@@ -27,9 +27,9 @@ public class EncounterController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Encounter> getEncounter(@PathVariable String id) {
+    public ResponseEntity<Encounter> getEncounter(@PathVariable UUID id) {
         return encounterRepository
-                .findById(UUID.fromString(id))
+                .findById(id)
                 .map(encounter -> ResponseEntity.ok().body(encounter))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -46,8 +46,8 @@ public class EncounterController {
 
     @Transactional
     @PutMapping("/{id}")
-    public ResponseEntity<Encounter> updateEncounter(@PathVariable(value = "id") String encounterId, @Valid @RequestBody Encounter encounterDetails) {
-        return encounterRepository.findById(UUID.fromString(encounterId))
+    public ResponseEntity<Encounter> updateEncounter(@PathVariable(value = "id") UUID encounterId, @Valid @RequestBody Encounter encounterDetails) {
+        return encounterRepository.findById(encounterId)
                 .map(encounter -> {
                     encounter.setIdentifier(encounterDetails.getIdentifier());
                     encounter.setStatus(encounterDetails.getStatus());
@@ -68,8 +68,8 @@ public class EncounterController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Encounter> deleteEncounter(@PathVariable(value = "id") String encounterId) {
-             return encounterRepository.findById(UUID.fromString(encounterId)).map(encounter -> {
+    public ResponseEntity<Encounter> deleteEncounter(@PathVariable(value = "id") UUID encounterId) {
+             return encounterRepository.findById(encounterId).map(encounter -> {
             encounterRepository.delete(encounter);
             return ResponseEntity.ok().<Encounter>build();
         }).orElse(ResponseEntity.notFound().build());

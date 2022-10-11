@@ -98,15 +98,14 @@ public class OrganizationControllerTest {
     }
 
     @Test
-    public void deleteAnOrganization(){
-        try {
-            mockMvc.perform(MockMvcRequestBuilders.delete("/api/organization/00000000-0000-0000-0000-0000000000o1"))
-                    .andDo(MockMvcResultHandlers.print())
-                    .andExpect(MockMvcResultMatchers.status().isOk());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    public void deleteAnOrganization() throws Exception {
+        Organization o = OrganizationRepositoryTest.returnOneOrganization();
+        Organization oWithId = organizationRepository.save(o);
 
+        mockMvc
+                .perform(MockMvcRequestBuilders.delete("/api/organization/" + oWithId.getId()))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
 
 }

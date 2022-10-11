@@ -32,9 +32,9 @@ public class PractitionerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Practitioner> getPractitioner(@PathVariable String id) {
+    public ResponseEntity<Practitioner> getPractitioner(@PathVariable UUID id) {
         return practitionerRepository
-                .findById(UUID.fromString(id))
+                .findById(id)
                 .map(practitioner -> ResponseEntity.ok().body(practitioner))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -52,8 +52,8 @@ public class PractitionerController {
 
     @Transactional
     @PutMapping("/{id}")
-    public ResponseEntity<Practitioner> updatePractitioner(@PathVariable(value = "id") String practitionerId, @Valid @RequestBody Practitioner practitionerDetails) {
-        return practitionerRepository.findById(UUID.fromString(practitionerId))
+    public ResponseEntity<Practitioner> updatePractitioner(@PathVariable(value = "id") UUID practitionerId, @Valid @RequestBody Practitioner practitionerDetails) {
+        return practitionerRepository.findById(practitionerId)
                 .map(practitioner -> {
                     practitioner.setActive(practitionerDetails.isActive());
                     practitioner.setGender(practitionerDetails.getGender());
@@ -72,8 +72,8 @@ public class PractitionerController {
     }
 
     @DeleteMapping("/{id}")     //Braucht man auch, um darauf zugreifen zu können bspw. beim testen
-    public ResponseEntity<Practitioner> deletePractitioner(@PathVariable(value = "id") String practitionerId) {
-        return practitionerRepository.findById(UUID.fromString(practitionerId)).map(practitioner -> {
+    public ResponseEntity<Practitioner> deletePractitioner(@PathVariable(value = "id") UUID practitionerId) {
+        return practitionerRepository.findById(practitionerId).map(practitioner -> {
             practitionerRepository.delete(practitioner);
             return ResponseEntity.ok().<Practitioner>build();
         }).orElse(ResponseEntity.notFound().build());

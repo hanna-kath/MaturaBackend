@@ -20,7 +20,7 @@ INSERT INTO suffix_humanname (id, suffix) VALUES ('00000000-0000-0000-0000-00000
 INSERT INTO pe_period (id, pe_end, pe_start) VALUES ('00000000-0000-0000-0000-000000000006', '2040-01-05', '1999-01-01');
 INSERT INTO cp_contactpoint (id, cp_rank, cp_system, cp_use, cp_value, cp_p_id, cp_pe_id) VALUES ('00000000-0000-0000-0000-000000000007', '1', 'phone', 'work', '015552231123', '00000000-0000-0000-0000-000000000002','00000000-0000-0000-0000-000000000006');
 INSERT INTO cp_contactpoint (id, cp_rank, cp_system, cp_use, cp_value, cp_p_id) VALUES ('00000000-0000-0000-0000-000000000008', '2', 'email', 'work', 'pirker@spengergasse.at', '00000000-0000-0000-0000-000000000002');
---Insert für address
+-- Insert für address
 INSERT INTO pe_period (id, pe_end, pe_start) VALUES ('00000000-0000-0000-0000-000000000009', '2040-01-05', '1999-01-01');
 INSERT INTO a_address (id, a_city, a_country, a_district,  a_postalcode, a_state, a_type, a_use, a_p_id, a_pe_id) VALUES ('00000000-0000-0000-0000-000000000010', 'Wien', 'Österreich', 'Wien', '1050', 'Wien', 'both', 'home', '00000000-0000-0000-0000-000000000002','00000000-0000-0000-0000-000000000009');
 INSERT INTO a_address_line (address_id, line) VALUES ('00000000-0000-0000-0000-000000000010','Simon Pirker');
@@ -44,7 +44,7 @@ INSERT INTO `mis`.`co_coding` (`id`, `co_code`, `co_display`, `co_system`, `co_u
 INSERT INTO `mis`.`i_identifier` (`id`, `i_system`, `i_use`, `i_value`, `i_pr_id`) VALUES ('00000000-0000-0000-0000-000000118265', 'urn:oid:2.16.528.1.1007.3.1', 'official', '118265112', '00000000-0000-0000-0000-00000000f005');
 INSERT INTO `mis`.`i_identifier` (`id`, `i_system`, `i_use`, `i_value`, `i_pr_id`) VALUES ('00000000-0000-0000-0000-000000191REW', 'urn:oid:2.16.840.1.113883.2.4.6.3', 'usual', '191REW8WE916', '00000000-0000-0000-0000-00000000f005');
 INSERT INTO `mis`.`pr_practitioner` (`id`, `pr_active`, `pr_birthdate`, `pr_gender`) VALUES ('00000000-0000-0000-0000-0000000f0051', 1, '1990-01-01', 'male');
--- --Insert für Encounter
+-- Insert für Encounter
 INSERT INTO `mis`.`n_narrative` (`id`, `n_div`, `n_status`) VALUES ('00000000-0000-0000-0000-00000000201f', '<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative</b></p><div style=\\\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\\\"><p style=\\\"margin-bottom: 0px\\\">Resource &quot;f201&quot; </p></div><p><b>identifier</b>: id: Encounter_Roel_20130404 (TEMP)</p><p><b>status</b>: completed</p><p><b>class</b>: ambulatory (Details: http://terminology.hl7.org/CodeSystem/v3-ActCode code AMB = \'ambulatory\', stated as \'ambulatory\')</p><p><b>type</b>: Consultation <span style=\\\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\\\"> (<a href=\\\"https://browser.ihtsdotools.org/\\\">SNOMED CT</a>#11429006)</span></p><p><b>priority</b>: Normal <span style=\\\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\\\"> (<a href=\\\"https://browser.ihtsdotools.org/\\\">SNOMED CT</a>#17621005)</span></p><p><b>subject</b>: <a href=\\\"patient-f201.html\\\">Patient/f201: Roel</a> &quot;Roel&quot;</p><h3>Participants</h3><table class=\\\"grid\\\"><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a href=\\\"practitioner-f201.html\\\">Practitioner/f201</a> &quot;Dokter Bronsig&quot;</td></tr></table><p><b>serviceProvider</b>: <a href=\\\"organization-f201.html\\\">Organization/f201</a> &quot;Artis University Medical Center (AUMC)&quot;</p></div>', 'generated');
 INSERT INTO `mis`.`en_encounter` (`id`, `en_status`, `dr_n_id`) VALUES ('00000000-0000-0000-0000-00000000f201', 'planned', '00000000-0000-0000-0000-00000000201f');
 INSERT INTO `mis`.`i_identifier` (`id`, `i_use`, `i_value`, `i_en_id`) VALUES ('00000000-0000-0000-0000-000000002304', 'temp', 'Encounter_Roel_20130404', '00000000-0000-0000-0000-00000000f201');
@@ -69,21 +69,34 @@ INSERT INTO `mis`.`re_reference` (`id`, `re_reference`, `re_en_fk`) VALUES ('000
 INSERT INTO `mis`.`pe_period` (`id`, `pe_start`) VALUES ('00000000-0000-0000-0000-000000000vbg', '2013-03-08');
 INSERT INTO `mis`.`st_statushistory` (`id`, `st_status`, `st_pe_id`, `st_en_fk`) VALUES ('00000000-0000-0000-0000-000000000cft', 'inprogress', '00000000-0000-0000-0000-000000000vbg', '00000000-0000-0000-0000-00000000f201');
 INSERT INTO `mis`.`en_encounter` (`id`, `en_status`) VALUES ('00000000-0000-0000-0000-0000000000f1', 'planned');
---Insert into Organization ändern
+-- Insert into Organization
 INSERT INTO `mis`.`n_narrative` (`id`, `n_div`, `n_status`) VALUES ('00000000-0000-0000-0000-00000000203f', '<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f203</p><p><b>identifier</b>: Zorginstelling naam = Blijdorp MC (OFFICIAL)</p><p><b>active</b>: true</p><p><b>type</b>: Academic Medical Center <span>(Details : {SNOMED CT code \405608006\ = \Academic medical centre\, given as \Academic Medical Center\}; {http://terminology.hl7.org/CodeSystem/organization-type code \prov\ = \Healthcare Provider)</span></p><p><b>name</b>: Blijdorp Medisch Centrum (BUMC)</p><p><b>telecom</b>: ph: +31107040704(WORK)</p><p><b>address</b>: apenrots 230 Blijdorp 3056BE NLD (WORK)</p></div>;', 'generated');
 INSERT INTO `mis`.`o_organization` (`id`, `o_active`, `o_name`, `dr_n_id`) VALUES ('00000000-0000-0000-0000-00000000f203', true, 'Blijdorp Medisch Centrum (BUMC)', '203f');
 INSERT INTO `mis`.`i_identifier` (`id`, `i_system`, `i_use`, `i_value`, `i_o_id`) VALUES ('00000000-0000-0000-0000-000000000vbg', 'http://www.zorgkaartnederland.nl/', 'official', 'Blijdorp MC', '00000000-0000-0000-0000-00000000203f');
 INSERT INTO `mis`.`a_address` (`id`, `a_city`, `a_country`, `a_postalcode`, `a_text`, `a_use`, `a_o_id`) VALUES ('00000000-0000-0000-0000-000000000wed', 'Blijdorp', 'NLD', '3056BE', 'apenrots 230', 'work', '00000000-0000-0000-0000-00000000203f');
 INSERT INTO `mis`.`hn_humanname` (`id`, `hn_family`) VALUES ('00000000-0000-0000-0000-000000000cvb', 'mr. F. de Hond');
 INSERT INTO `mis`.`co_coding` (`id`, `co_code`, `co_system`) VALUES ('00000000-0000-0000-0000-000000000xys', 'ADMIN', 'http://terminology.hl7.org/CodeSystem/contactentity-type');
--- INSERT INTO `mis`.`cc_codeableconcept` (`id`, `cc_text`, `cc_q_code`) VALUES ('fua', 'en', 'xys');
--- INSERT INTO `mis`.`c_contact` (`id`, `c_hn_id`, `c_cc_id`, `c_o_id`) VALUES ('dfa', 'cvb', 'fua', 'f203');
 INSERT INTO `mis`.`c_contact` (`id`, `c_hn_id`, `c_o_id`) VALUES ('00000000-0000-0000-0000-000000000dfa', '00000000-0000-0000-0000-000000000cvb', '00000000-0000-0000-0000-00000000203f');
 INSERT INTO `mis`.`o_organization` (`id`, `o_active`, `o_name`, `dr_n_id`) VALUES ('00000000-0000-0000-0000-0000000000o1', false, 'Blijdorp Medisch Centrum (BUMC)', '00000000-0000-0000-0000-00000000203f');
---Inserts für StructureMap ändern
+-- Inserts für StructureMap
 INSERT INTO `mis`.`n_narrative` (`id`, `n_div`, `n_status`) VALUES ('00000000-0000-0000-0000-000000005150', '<div>Text</div>', 'additional');
 INSERT INTO `mis`.`sm_structuremap` (`id`, `sm_datetime`, `con_status`, `dr_n_id`) VALUES ('00000000-0000-0000-0000-000000000516', '2017-03-19', 'retired', '00000000-0000-0000-0000-000000005150');
 INSERT INTO `mis`.`s_structure` (`id`, `s_aliases`, `s_modus`, `s_sm_fk`) VALUES ('00000000-0000-0000-0000-0000000000s1', 'http://activitydefinition', 'source', '00000000-0000-0000-0000-000000000516');
 INSERT INTO `mis`.`s_structure` (`id`, `s_aliases`, `s_modus`, `s_sm_fk`) VALUES ('00000000-0000-0000-0000-0000000000s2', 'http://supplyrequest', 'target', '00000000-0000-0000-0000-000000000516');
 INSERT INTO `mis`.`cd_contactdetail` (`id`, `cd_name`, `cd_sm_id`) VALUES ('00000000-0000-0000-0000-000000000cd1', 'Dr. Voodoo', '00000000-0000-0000-0000-000000000516');
 INSERT INTO `mis`.`sm_structuremap` (`id`, `con_status`) VALUES ('00000000-0000-0000-0000-000000000sm1', 'retired');       --für deleteAStructureMap in ControllerTest
+-- Inserts für Condition
+INSERT INTO `mis`.`n_narrative` (`id`, `n_div`, `n_status`) VALUES ('00000000-0000-0000-0000-000000000432', '<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">Severe burn of left ear (Date: 24-May 2012)</div>', 'generated');
+INSERT INTO `mis`.`con_condition` (`id`, `dr_n_id`, `con_re_subject`) VALUES ('example', '00000000-0000-0000-0000-000000000432', '00000000-0000-0000-0000-0000000app2');
+INSERT INTO `mis`.`re_reference` (`id`, `re_reference`) VALUES ('00000000-0000-0000-0000-0000000app2', 'Patient/example');
+INSERT INTO `mis`.`cc_codeableconcept` (`id`) VALUES ('00000000-0000-0000-0000-000000000cst');
+INSERT INTO `mis`.`co_coding` (`id`, `co_code`, `co_system`, `co_cc_id`) VALUES ('00000000-0000-0000-0000-000000011cst', 'active', 'http://terminology.hl7.org/CodeSystem/condition-clinical', '00000000-0000-0000-0000-000000000cst');
+INSERT INTO `mis`.`cc_codeableconcept` (`id`, `cc_con_fk`) VALUES ('00000000-0000-0000-0000-000000abchbl', 'example');
+INSERT INTO `mis`.`co_coding` (`id`, `co_code`, `co_system`, `co_cc_id`) VALUES ('00000000-1234-0000-0000-00000000xcv2', 'confirmed', 'http://terminology.hl7.org/CodeSystem/condition-ver-status', '00000000-0000-0000-0000-000000abchbl');
+INSERT INTO `mis`.`cc_codeableconcept` (`id`, `cc_con_fk`) VALUES ('00000000-1200-0000-0000-000000abchbl', 'example');
+INSERT INTO `mis`.`co_coding` (`id`, `co_code`, `co_display`, `co_system`, `co_cc_id`) VALUES ('00000000-3334-0000-0000-00000000xcv2', 'encounter-diagnosis', 'Encounter Diagnosis', 'http://terminology.hl7.org/CodeSystem/condition-category', '00000000-1200-0000-0000-000000abchbl');
+INSERT INTO `mis`.`co_coding` (`id`, `co_code`, `co_display`, `co_system`, `co_cc_id`) VALUES ('00000000-3334-1100-0000-00000000xcv2', '439401001', 'Diagnosis', 'http://snomed.info/sct', '00000000-1200-0000-0000-000000abchbl');
+INSERT INTO `mis`.`cc_codeableconcept` (`id`, `cc_con_fk`) VALUES ('11000000-0000-0000-0000-000000abchbl', 'example');
+INSERT INTO `mis`.`co_coding` (`id`, `co_code`, `co_display`, `co_system`, `co_cc_id`) VALUES ('00000011-3334-1100-0000-00000000xcv2', '39065001', 'Burn of ear', 'http://snomed.info/sct', '11000000-0000-0000-0000-000000abchbl');
+INSERT INTO `mis`.`cc_codeableconcept` (`id`, (`id`, `cc_text`, `cc_con_fk`) VALUES ('00000000-1234-0000-0000-000000000hbl', 'Left Ear', 'example');
+INSERT INTO `mis`.`co_coding` (`id`, `co_code`, `co_display`, `co_system`) VALUES ('00000011-3334-1100-0000-00000000xc11', '49521004', 'Left external ear structure', 'http://snomed.info/sct');

@@ -24,4 +24,5 @@ public abstract class Element {
   @Column(name = "id")
   @Type(type = "uuid-char")
   private UUID id;
+  // Format: 00000000-0000-0000-0000-00000
 }

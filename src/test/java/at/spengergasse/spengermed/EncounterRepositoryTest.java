@@ -29,7 +29,7 @@ public class EncounterRepositoryTest {
     public void testSaveAndLoadOneEncounter(){
         Encounter e = returnOneEncounter();
         Encounter savedE = encounterRepository.save(e);
-        Optional<Encounter> loadedEOptional = encounterRepository.findById(UUID.fromString(String.valueOf(savedE.getId())));
+        Optional<Encounter> loadedEOptional = encounterRepository.findById(savedE.getId());
         Encounter loadedE = loadedEOptional.get();
 
         assertEquals(e.getText(), loadedE.getText());
@@ -52,7 +52,7 @@ public class EncounterRepositoryTest {
     public void testDeleteEncounter(){
         Encounter e = returnOneEncounter();
         Encounter savedE = encounterRepository.save(e);
-        encounterRepository.deleteById(UUID.fromString(String.valueOf(savedE.getId())));
+        encounterRepository.deleteById(savedE.getId());
         assertTrue(encounterRepository.findById(UUID.fromString(String.valueOf(savedE.getId()))).isEmpty());
     }
 
