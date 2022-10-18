@@ -34,7 +34,7 @@ public class Patient extends DomainResource {
   private List<Identifier> identifier = new ArrayList<>();
 
   @Column(name = "p_active")
-  private Boolean active;
+  private Boolean active; //darf auch Null sein
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "hn_p_id", nullable = true, referencedColumnName = "id")
