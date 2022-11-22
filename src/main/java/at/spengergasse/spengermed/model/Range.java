@@ -11,14 +11,17 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
+@Table(name = "ra_range")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @SuperBuilder
-@Table(name = "u_uristring")
-public class URIString extends DomainResource{
+public class Range extends Element{
 
-    @Column(name = "u_string")
-    private String uriString;
+    @Column(name="ra_low")
+    private Integer low;
+
+    @Column(name="ra_high")
+    private Integer high;
 }

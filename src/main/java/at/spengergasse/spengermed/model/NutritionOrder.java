@@ -26,10 +26,9 @@ public class NutritionOrder extends DomainResource{
     @Builder.Default
     private List<Identifier> identifier = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "u_no_id", referencedColumnName = "id")
-    @Builder.Default
-    private List<URIString> instantiates = new ArrayList<URIString>();
+    @ElementCollection
+    @CollectionTable(name = "no_instantiates")
+    private List<String> instantiates = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "no_intent", nullable = false)

@@ -38,6 +38,7 @@ public class NutritionOrderRepositoryTest {
 
         assertTrue(CollectionUtils.isEqualCollection(no.getIdentifier(), loadedNo.getIdentifier()));
         assertTrue(CollectionUtils.isEqualCollection(no.getInstantiates(), loadedNo.getInstantiates()));
+        //assertTrue(CollectionUtils.isEqualCollection(no.getInstantiates(), loadedNo.getInstantiates()));
     }
 
     @Test
@@ -69,9 +70,12 @@ public class NutritionOrderRepositoryTest {
                 .use(Identifier.UseCode.official)
                 .build());
 
-        List<URIString> instantiates = new ArrayList<>();
-        instantiates.add(URIString.builder().uriString("protocol")
-                .build());
+//        List<URIString> instantiates = new ArrayList<>();
+//        instantiates.add(URIString.builder().uriString("protocol")
+//                .build());
+        ArrayList<String> instantiates = new ArrayList<String>();
+        instantiates.add("Instantiates1");
+        instantiates.add("Instantiates2");
 
         Reference patients = Reference.builder()
                 .reference("Patient/1")

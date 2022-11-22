@@ -43,7 +43,6 @@ public class Address extends Element {
   @ElementCollection
   @CollectionTable(name = "a_address_line")
   @Builder.Default
-
   private List<String> line = new ArrayList<>();
 
   @Column(name = "a_city")
