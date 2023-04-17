@@ -65,7 +65,7 @@ public class NutritionOrderRepositoryTest {
 
         List<Identifier> identifiers = new ArrayList<>();
         identifiers.add(Identifier.builder()
-                .value("00000000-0000-0000-0000-00000000no12")
+                .value("20000000-0000-0000-0000-00000000ac12")
                 .type(CodeableConcept.builder().build())
                 .use(Identifier.UseCode.official)
                 .build());

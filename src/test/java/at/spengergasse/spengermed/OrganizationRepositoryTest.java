@@ -64,7 +64,7 @@ public class OrganizationRepositoryTest {
 
         List<Identifier> identifiers = new ArrayList<>();
         identifiers.add(Identifier.builder()
-                .value("O_1")
+                .value("7b10cb46-8066-11ed-a1eb-0242ac120002")
                 .type(CodeableConcept.builder().build())
                 .use(Identifier.UseCode.temp)
                 .build());

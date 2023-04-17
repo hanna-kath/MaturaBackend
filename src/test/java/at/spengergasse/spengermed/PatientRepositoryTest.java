@@ -76,7 +76,7 @@ public class PatientRepositoryTest {
     ccCodings.add(Coding.builder().display("Sozialversicherungsnummer").code("SS").build());
     identifiers.add(
         Identifier.builder()
-            .value("0123012345")
+            .value("945787ca-8066-11ed-a1eb-0242ac120002")
             .type(CodeableConcept.builder().coding(ccCodings).build())
             .use(Identifier.UseCode.official)
             .build());

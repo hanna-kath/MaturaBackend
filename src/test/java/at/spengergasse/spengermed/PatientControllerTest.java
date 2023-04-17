@@ -6,6 +6,7 @@ import at.spengergasse.spengermed.repository.PatientRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import javax.persistence.EntityManager;
+
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 // Darüber werden Anfragen an den Controller geschickt und die Antworten ausgewertet.
 @AutoConfigureMockMvc
 public class PatientControllerTest {
+
   @Autowired MockMvc mockMvc;
 
   @Autowired ObjectMapper om;

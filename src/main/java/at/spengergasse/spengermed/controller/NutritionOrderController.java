@@ -22,8 +22,8 @@ public class NutritionOrderController {
     private NutritionOrderRepository nutritionOrderRepository;
 
     @GetMapping
-    public @ResponseBody
-    Iterable<NutritionOrder> getAllNutritionOrders(){
+    @ResponseBody
+    public Iterable<NutritionOrder> getAllNutritionOrders(){
         return nutritionOrderRepository.findAll();
     }
 

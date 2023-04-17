@@ -54,7 +54,7 @@ public class GroupController {
                         group -> {
                             group.setIdentifier(groupDetails.getIdentifier());
                             group.setCharacteristic(groupDetails.getCharacteristic());
-                            group.setText(groupDetails.getText());
+//                            group.setText(groupDetails.getText());
 
                             Group updatedGroup = groupRepository.save(group);
                             return ResponseEntity.ok(updatedGroup);

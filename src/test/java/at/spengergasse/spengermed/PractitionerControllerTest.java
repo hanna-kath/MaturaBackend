@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 //Dabei wird die http Schnittstelle überprüft. Man sendet also http Nachrichten an den Controller und prüft,
@@ -25,6 +26,8 @@ import java.util.UUID;
 @SpringBootTest         //Macht aus der Klasse eine Testklasse
 @AutoConfigureMockMvc   //Darüber werden Anfragen an den Controller geschickt und die Antworten ausgewertet.
 public class PractitionerControllerTest {
+
+
 
     @Autowired              //teilt Spring mit, wo es mittels Injection Objekte in andere Klassen einfügen soll
     MockMvc mockMvc;        //spezielle Art von Integrationstest - zwischen Unit und Integrationstest
@@ -56,7 +59,7 @@ public class PractitionerControllerTest {
     //andExpect überprüft, ob der zurückgegebene Status 200 (OK) ist.
 
     @Test
-    public void getAPatient() throws Exception {
+    public void getAPractitioner() throws Exception {
         Practitioner practitioner = PractitionerRepositoryTest.returnOnePractitioner();
         val id = practitionerRepository.save(practitioner).getId();
         mockMvc

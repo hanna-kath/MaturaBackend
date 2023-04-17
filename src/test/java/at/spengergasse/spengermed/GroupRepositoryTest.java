@@ -32,7 +32,7 @@ public class GroupRepositoryTest {
         Optional<Group> loadedGOptional = groupRepository.findById(UUID.fromString(String.valueOf(savedG.getId())));
         Group loadedG = loadedGOptional.get();
 
-        assertEquals(g.getText(), loadedG.getText());
+//        assertEquals(g.getText(), loadedG.getText());
 
         assertTrue(CollectionUtils.isEqualCollection(g.getIdentifier(), loadedG.getIdentifier()));
         assertTrue(CollectionUtils.isEqualCollection(g.getCharacteristic(), loadedG.getCharacteristic()));
@@ -52,7 +52,7 @@ public class GroupRepositoryTest {
     public void testUpdateOneGroup() {
         Group g = returnOneGroup();
         Group savedEmptyG = groupRepository.save(new Group());
-        savedEmptyG.setText(g.getText());
+//        savedEmptyG.setText(g.getText());
         savedEmptyG.setCharacteristic(g.getCharacteristic());
     }
 

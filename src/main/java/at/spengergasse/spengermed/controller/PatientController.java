@@ -6,6 +6,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.StreamSupport;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import lombok.val;
@@ -55,6 +56,9 @@ public class PatientController {
   @PutMapping("/{id}")
   public ResponseEntity<Patient> updatePatient(
       @PathVariable("id") UUID patientId, @Valid @RequestBody Patient patientDetails) {
+
+      var allPatients = StreamSupport.stream(patientRepository.findAll().spliterator(), false).toArray();
+
     return patientRepository
         .findById(patientId)
         .map(
@@ -65,6 +69,9 @@ public class PatientController {
               patient.setName(patientDetails.getName());
               patient.setAddress(patientDetails.getAddress());
               patient.setBirthDate(patientDetails.getBirthDate());
+              patient.setTelecom(patientDetails.getTelecom());
+              patient.setDeceasedBoolean(patientDetails.getDeceasedBoolean());
+              patient.setDeceasedDateTime(patientDetails.getDeceasedDateTime());
 
               Patient updatedPatient = patientRepository.save(patient);
               return ResponseEntity.ok(updatedPatient);
