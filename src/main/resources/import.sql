@@ -123,4 +123,13 @@ INSERT INTO `mis`.`qu_quantity` (`id`, `qu_unit`) VALUES ('8fbbf5e4-6a6c-11ed-a1
 INSERT INTO `mis`.`gc_groupcomponent` (`id`, `gc_type`) VALUES ('8fbbf5e4-6a6c-11ed-a1eb-0242ac120002', 'grouped');
 INSERT INTO `mis`.`ch_characteristic` (`id`, `ch_valueboolean`, `ch_cc_id`) VALUES ('c203362e-6a6d-11ed-a1eb-0242ac120002', '0', '8fbbee00-6a6c-11ed-a1eb-0242ac120002');
 INSERT INTO `mis`.`gc_groupcomponent` (`id`, `gc_type`, `gc_ch_id`) VALUES ('426415b8-6a6e-11ed-a1eb-0242ac120002', 'involved', 'c203362e-6a6d-11ed-a1eb-0242ac120002');
+-- Vp
+INSERT INTO `mis`.`n_narrative` (`id`, `n_status`) VALUES ('00a00000-0ca0-1859-1234-000000000001', 'active');
+INSERT INTO `mis`.`re_reference` (`id`, `re_reference`) VALUES ('00000000-6283-0000-abbc-00000000ade1', 'Patient/example');
+INSERT INTO `mis`.`vp_visionprescription` (`id`, `vp_datewritten`, `dr_n_id`, `vp_re_patient`) VALUES ('00000000-1472-acca-0055-000000abccbc', '2014-06-15', '00a00000-0ca0-1859-1234-000000000001', '00000000-6283-0000-abbc-00000000ade1');
+INSERT INTO `mis`.`cc_codeableconcept` (`id`, `cc_text`) VALUES ('00a00000-0ca0-1859-1357-000000000001', '\"http://terminology.hl7.org/CodeSystem/ex-visionprescriptionproduct');
+INSERT INTO `mis`.`ls_lensspecification` (`id`, `ls_add`, `ls_axis`, `ls_cylinder`, `ls_eye`, `ls_sphere`, `ls_cc_product`, `ls_vp_id`) VALUES ('00a00000-0ca0-6258-2184-000000000001', '2', '180', '-0.5', 'left', '-1', '00a00000-0ca0-1859-1357-000000000001', '00000000-1472-acca-0055-000000abccbc');
+INSERT INTO `mis`.`cc_codeableconcept` (`id`, `cc_text`) VALUES ('4e0f14fc-1985-11ed-aabb-0242ac120002', 'http://terminology.hl7.org/CodeSystem/ex-visionprescriptionproduct');
+INSERT INTO `mis`.`ls_lensspecification` (`id`, `ls_add`, `ls_eye`, `ls_sphere`, `ls_cc_product`, `ls_vp_id`) VALUES ('00a00000-aacc-6258-1261-000000000001', '2', 'right', '-2', '4e0f14fc-1985-11ed-aabb-0242ac120002', '00000000-1472-acca-0055-000000abccbc');
+INSERT INTO `mis`.`vp_visionprescription` (`id`, `vp_datewritten`, `p_status`, `vp_re_patient`) VALUES ('00000000-1472-bbba-0055-000000abccbc', '2043-06-15 00:00:00.000000', 'acitve', '00000000-6283-0000-abbc-00000000ade1');
 
