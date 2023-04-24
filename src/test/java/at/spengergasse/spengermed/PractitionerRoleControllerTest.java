@@ -1,11 +1,11 @@
 package at.spengergasse.spengermed;
 
-import at.spengergasse.spengermed.model.*;
-import at.spengergasse.spengermed.repository.ConditionRepository;
-import at.spengergasse.spengermed.repository.PractitionerRepository;
+import at.spengergasse.spengermed.model.PractitionerRole;
+import at.spengergasse.spengermed.model.StructureMap;
+import at.spengergasse.spengermed.repository.PractitionerRoleRepository;
+import at.spengergasse.spengermed.repository.StructureMapRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.xml.bind.v2.TODO;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +22,21 @@ import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ConditionControllerTest {
+public class PractitionerRoleControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+
     @Autowired
     ObjectMapper om;
+
     @Autowired
-    ConditionRepository conditionRepository;
+    PractitionerRoleRepository practitionerRoleRepository;
 
     @Test
-    public void getAllConditions() {
+    public void getAllPractitionerRole() {
         try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/condition"))
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/practitionerrole"))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk());
         } catch (Exception e) {
@@ -43,32 +45,26 @@ public class ConditionControllerTest {
     }
 
     @Test
-    public void getACondition(){
-        try {
-            Condition condition = ConditionRepositoryTest.returnOneCondition();
-            val id = conditionRepository.save(condition).getId();
-            mockMvc
-
-                    .perform(MockMvcRequestBuilders.get("/api/condition/"+id))
-                    .andDo(MockMvcResultHandlers.print())
-                    .andExpect(MockMvcResultMatchers.status().isOk());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void getAPractitionerRole() throws Exception {
+        PractitionerRole practitionerRole = PractitionerRoleRepositoryTest.returnOnePractitionerRole();
+        val id = practitionerRoleRepository.save(practitionerRole).getId();
+        mockMvc
+                .perform(MockMvcRequestBuilders.get("/api/practitionerrole/" + id))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
-
     @Test
-    public void postACondition(){
-        Condition condition = ConditionRepositoryTest.returnOneCondition();
+    public void postAPractitionerRole(){
+        PractitionerRole practitionerRole = PractitionerRoleRepositoryTest.returnOnePractitionerRole();
         String json= null;
         try {
-            json = om.writeValueAsString(condition);
+            json = om.writeValueAsString(practitionerRole);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         try {
-            mockMvc.perform(MockMvcRequestBuilders.post("/api/condition")
+            mockMvc.perform(MockMvcRequestBuilders.post("/api/practitionerrole/")
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(json))
@@ -81,17 +77,16 @@ public class ConditionControllerTest {
 
     @Test
     @Transactional
-    public void putACondition() throws Exception {
-        Condition condition = conditionRepository.save(ConditionRepositoryTest.returnOneCondition());
-        val id = condition.getId();
-        Entities.unsetAllIds(condition);
+    public void putAPractitionerRole() throws Exception {
+        PractitionerRole practitionerRole = practitionerRoleRepository.save(PractitionerRoleRepositoryTest.returnOnePractitionerRole());
+        val id = practitionerRole.getId();
+        Entities.unsetAllIds(practitionerRole);
+        practitionerRole.setId(UUID.fromString("00000000-0000-0000-0000-000000045123"));
 
-        condition.setId(UUID.fromString("00000000-0000-0000-0000-000000000123"));
-
-        String json = om.writeValueAsString(condition);
+        String json = om.writeValueAsString(practitionerRole);
         mockMvc
                 .perform(
-                        MockMvcRequestBuilders.put("/api/condition/" + id)
+                        MockMvcRequestBuilders.put("/api/practitionerrole/" + id)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
@@ -100,13 +95,14 @@ public class ConditionControllerTest {
     }
 
     @Test
-    @Transactional
-    public void deleteACondition() throws Exception {
-        Condition c = ConditionRepositoryTest.returnOneCondition();
-        Condition cWithId = conditionRepository.save(c);
+    public void deleteAPractitionerRole() throws Exception{
+        PractitionerRole pr = PractitionerRoleRepositoryTest.returnOnePractitionerRole();
+        PractitionerRole prWithId = practitionerRoleRepository.save(pr);
+
         mockMvc
-                .perform(MockMvcRequestBuilders.delete("/api/condition/" + cWithId.getId()))
+                .perform(MockMvcRequestBuilders.delete("/api/practitionerrole/" + prWithId.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
 }

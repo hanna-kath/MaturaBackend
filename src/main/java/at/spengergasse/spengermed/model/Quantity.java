@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.net.URI;
 
 @Entity
@@ -23,23 +21,9 @@ public class Quantity extends Element {
     @Column(name = "qu_decimal")
     private double decimal;
 
-    public enum Code {
-        smaller  ("<"),
-        equallsmall  ("<="),
-        equallbig   (">="),
-        bigger (">");
-        private String value;
-        private Code(String value) {
-            this.value = value;
-        }
-        public String toString() {
-            return this.value;
-        }
-    }
-
-
-    @Column(name = "qu_comperator")
-    private Code comperator;
+    @Column(name = "qu_comparator")
+    @Enumerated(EnumType.STRING)
+    private ComparatorEnum comparator;
 
     @Column(name = "qu_unit")
     private String unit;

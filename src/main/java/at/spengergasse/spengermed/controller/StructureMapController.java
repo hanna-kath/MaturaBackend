@@ -68,7 +68,4 @@ public class StructureMapController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-
-
-
 }

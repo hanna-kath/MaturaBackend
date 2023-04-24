@@ -1,10 +1,9 @@
 package at.spengergasse.spengermed;
 
-import at.spengergasse.spengermed.model.Condition;
-import at.spengergasse.spengermed.model.Patient;
-import at.spengergasse.spengermed.model.VisionPrescription;
-import at.spengergasse.spengermed.repository.ConditionRepository;
-import at.spengergasse.spengermed.repository.IVisionPrescriptionRespository;
+import at.spengergasse.spengermed.model.Consent;
+import at.spengergasse.spengermed.model.NutritionOrder;
+import at.spengergasse.spengermed.repository.ConsentRepository;
+import at.spengergasse.spengermed.repository.NutritionOrderRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.val;
@@ -23,49 +22,53 @@ import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class VisionPrescriptionControllerTest {
+public class ConsentControllerTest {
+
     @Autowired
     MockMvc mockMvc;
+
     @Autowired
-    ObjectMapper om;
+    ObjectMapper om;    //provides functionality for reading and writing JSON
+
     @Autowired
-    IVisionPrescriptionRespository vpRepository;
+    ConsentRepository consentRepository;
 
     @Test
-    public void getAllVisionPrescriptions() {
+    public void getAllConsents() {
         try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/visionprescription"))
+            mockMvc.perform(MockMvcRequestBuilders
+                    .get("/api/consent"))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk());
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
 
     @Test
-    public void getAVisionPrescription() throws Exception {
-        VisionPrescription vp = IVisionPrescriptionRepositoryTest.returnOneVisionPrescription();
-        val id = vpRepository.save(vp).getId();
+    public void getAConsent() throws Exception {
+        Consent consent = ConsentRepositoryTest.returnOneConsent();
+        val id = consentRepository.save(consent).getId();
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/visionprescription/" + id))
+                .perform(MockMvcRequestBuilders.get("/api/consent/" + id))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    public void postAVisionPrescription(){
-        VisionPrescription vp = IVisionPrescriptionRepositoryTest.returnOneVisionPrescription();
+    public void postAConsent(){
+        Consent consent = ConsentRepositoryTest.returnOneConsent();
         String json= null;
         try {
-            json = om.writeValueAsString(vp);
+            json = om.writeValueAsString(consent);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         try {
-            mockMvc.perform(MockMvcRequestBuilders.post("/api/visionprescription")
-                            .accept(MediaType.APPLICATION_JSON)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(json))
+            mockMvc.perform(MockMvcRequestBuilders.post("/api/consent/")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(json))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isCreated());
         } catch (Exception e) {
@@ -75,17 +78,18 @@ public class VisionPrescriptionControllerTest {
 
     @Test
     @Transactional
-    public void putAVisionPrescription() throws Exception {
-        VisionPrescription visionPrescription = vpRepository.save(IVisionPrescriptionRepositoryTest.returnOneVisionPrescription());
-        val id = visionPrescription.getId();
-        Entities.unsetAllIds(visionPrescription);
+    public void putAConsent() throws Exception {
+        Consent consent = consentRepository.save(ConsentRepositoryTest.returnOneConsent());
+        val id = consent.getId();
+        Entities.unsetAllIds(consent);
 
-        visionPrescription.setId(UUID.fromString("00a00000-abc9-0000-2471-000000000123"));
+        consent.setId(UUID.fromString("910583c0-e1e0-11ed-b5ea-0242ac120002"));
+        consent.setStatus(Consent.StatusCode.active);
 
-        String json = om.writeValueAsString(visionPrescription);
+        String json = om.writeValueAsString(consent);
         mockMvc
                 .perform(
-                        MockMvcRequestBuilders.put("/api/visionprescription/" + id)
+                        MockMvcRequestBuilders.put("/api/consent/" + id)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
@@ -95,13 +99,12 @@ public class VisionPrescriptionControllerTest {
 
     @Test
     @Transactional
-    public void deleteAVisionPrescription() throws Exception {
-        VisionPrescription vp = IVisionPrescriptionRepositoryTest.returnOneVisionPrescription();
-        VisionPrescription vpWithId = vpRepository.save(vp);
+    public void deleteAConsent() throws Exception {
+        Consent consent = ConsentRepositoryTest.returnOneConsent();
+        Consent consentWithId = consentRepository.save(consent);
         mockMvc
-                .perform(MockMvcRequestBuilders.delete("/api/visionprescription/" + vpWithId.getId()))
+                .perform(MockMvcRequestBuilders.delete("/api/consent/" + consentWithId.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
-
 }

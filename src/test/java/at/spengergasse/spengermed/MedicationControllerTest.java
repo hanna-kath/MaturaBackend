@@ -1,11 +1,11 @@
 package at.spengergasse.spengermed;
 
-import at.spengergasse.spengermed.model.*;
-import at.spengergasse.spengermed.repository.ConditionRepository;
-import at.spengergasse.spengermed.repository.PractitionerRepository;
+import at.spengergasse.spengermed.model.Medication;
+import at.spengergasse.spengermed.model.NutritionOrder;
+import at.spengergasse.spengermed.repository.MedicationRepository;
+import at.spengergasse.spengermed.repository.NutritionOrderRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.xml.bind.v2.TODO;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +22,19 @@ import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ConditionControllerTest {
+public class MedicationControllerTest {
 
     @Autowired
     MockMvc mockMvc;
     @Autowired
     ObjectMapper om;
     @Autowired
-    ConditionRepository conditionRepository;
+    MedicationRepository medicationRepository;
 
     @Test
-    public void getAllConditions() {
+    public void getAllMedications() {
         try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/condition"))
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/medication"))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk());
         } catch (Exception e) {
@@ -43,32 +43,26 @@ public class ConditionControllerTest {
     }
 
     @Test
-    public void getACondition(){
-        try {
-            Condition condition = ConditionRepositoryTest.returnOneCondition();
-            val id = conditionRepository.save(condition).getId();
-            mockMvc
-
-                    .perform(MockMvcRequestBuilders.get("/api/condition/"+id))
-                    .andDo(MockMvcResultHandlers.print())
-                    .andExpect(MockMvcResultMatchers.status().isOk());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void getAMedication() throws Exception {
+        Medication medication = MedicationRepositoryTest.returnOneMedication();
+        val id = medicationRepository.save(medication).getId();
+        mockMvc
+                .perform(MockMvcRequestBuilders.get("/api/medication/" + id))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
-
     @Test
-    public void postACondition(){
-        Condition condition = ConditionRepositoryTest.returnOneCondition();
+    public void postAMedication(){
+        Medication medication = MedicationRepositoryTest.returnOneMedication();
         String json= null;
         try {
-            json = om.writeValueAsString(condition);
+            json = om.writeValueAsString(medication);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         try {
-            mockMvc.perform(MockMvcRequestBuilders.post("/api/condition")
+            mockMvc.perform(MockMvcRequestBuilders.post("/api/medication")
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(json))
@@ -81,17 +75,18 @@ public class ConditionControllerTest {
 
     @Test
     @Transactional
-    public void putACondition() throws Exception {
-        Condition condition = conditionRepository.save(ConditionRepositoryTest.returnOneCondition());
-        val id = condition.getId();
-        Entities.unsetAllIds(condition);
+    public void putAMedication() throws Exception {
+        Medication medication = medicationRepository.save(MedicationRepositoryTest.returnOneMedication());
+        val id = medication.getId();
+        Entities.unsetAllIds(medication);
 
-        condition.setId(UUID.fromString("00000000-0000-0000-0000-000000000123"));
+        medication.setId(UUID.fromString("f5cb4c98-4131-11ed-1234-0242ac120002"));
+        medication.setStatus(Medication.StatusCode.inactive);
 
-        String json = om.writeValueAsString(condition);
+        String json = om.writeValueAsString(medication);
         mockMvc
                 .perform(
-                        MockMvcRequestBuilders.put("/api/condition/" + id)
+                        MockMvcRequestBuilders.put("/api/medication/" + id)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
@@ -101,12 +96,13 @@ public class ConditionControllerTest {
 
     @Test
     @Transactional
-    public void deleteACondition() throws Exception {
-        Condition c = ConditionRepositoryTest.returnOneCondition();
-        Condition cWithId = conditionRepository.save(c);
+    public void deleteAMedication() throws Exception {
+        Medication medication = MedicationRepositoryTest.returnOneMedication();
+        Medication medicationWithId = medicationRepository.save(medication);
         mockMvc
-                .perform(MockMvcRequestBuilders.delete("/api/condition/" + cWithId.getId()))
+                .perform(MockMvcRequestBuilders.delete("/api/medication/" + medicationWithId.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
 }

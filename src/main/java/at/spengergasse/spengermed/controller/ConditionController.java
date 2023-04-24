@@ -31,14 +31,14 @@ public class ConditionController {
     public ResponseEntity<Condition> getCondition(@PathVariable UUID id) {
         return conditionRepository
                 .findById(id)
-                .map(practitioner -> ResponseEntity.ok().body(practitioner))
+                .map(condition -> ResponseEntity.ok().body(condition))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @Transactional  //Datenbankzugriffe als Transaktion
     @PostMapping()
     public ResponseEntity<Condition> createCondition(@Valid @RequestBody
-                                                           Condition condition) {
+                                                     Condition condition) {
         condition.setId(null); // ensure to create new names
         var saved = conditionRepository.save(condition);
         return ResponseEntity
