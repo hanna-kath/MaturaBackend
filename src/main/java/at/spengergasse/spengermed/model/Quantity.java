@@ -29,7 +29,7 @@ public class Quantity extends Element {
     private String unit;
 
     @Column(name = "qu_sytem")
-    private URI system;
+    private String system;
 
     @Column(name = "qu_code")
     private String code;

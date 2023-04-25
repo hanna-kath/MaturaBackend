@@ -67,8 +67,4 @@ public class ConsentController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-
-
-
-
 }
