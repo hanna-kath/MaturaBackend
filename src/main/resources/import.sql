@@ -266,7 +266,7 @@ INSERT INTO `mis`.`cd_contactdetail` (`id`, `cd_name`, `cd_ig_id`) VALUES ('b64e
 INSERT INTO `mis`.`cd_contactdetail` (`id`, `cd_name`, `cd_ig_id`) VALUES ('b64e8764-e535-11ed-b5ea-0242ac120002', 'HL7', 'b64e80de-e535-11ed-b5ea-0242ac120002');
 INSERT INTO `mis`.`cc_codeableconcept` (`id`, `cc_ig_id`) VALUES ('b64e8836-e535-11ed-b5ea-0242ac120002', 'b64e80de-e535-11ed-b5ea-0242ac120002');
 INSERT INTO `mis`.`co_coding` (`id`, `co_code`, `co_system`, `co_cc_id`) VALUES ('b64e8912-e535-11ed-b5ea-0242ac120002', 'US', 'urn:iso:std:iso:3166', 'b64e8836-e535-11ed-b5ea-0242ac120002');
-INSERT INTO `mis`.`ig_implementation_guide` (`id`, `ig_url`, `ig_name`,`ig_status`) VALUES ('b64e8ef8-e535-11ed-b5ea-0242ac120002', 'ImplementationGuide/1.3.2', 'ImplementationGuide for FHIR Version 1.3.2','draft');
+INSERT INTO `mis`.`ig_implementation_guide` (`id`, `ig_url`, `ig_name`,`ig_status`, `ig_licence`) VALUES ('b64e8ef8-e535-11ed-b5ea-0242ac120002', 'ImplementationGuide/1.3.2', 'ImplementationGuide for FHIR Version 1.3.2','draft', 'AAL');
 INSERT INTO `mis`.`ig_fhir_version` (implementation_guide_id, fhir_version) VALUES ('b64e8ef8-e535-11ed-b5ea-0242ac120002','V3');
 
 
