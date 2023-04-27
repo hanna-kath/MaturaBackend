@@ -28,4 +28,12 @@ public class Participant extends BackboneElement{
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pa_individual")
     private Reference individual;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pa_role")
+    private CodeableConcept role;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pa_actor")
+    private Reference actor;
 }

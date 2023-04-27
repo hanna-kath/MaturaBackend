@@ -45,8 +45,8 @@ public class MedicationDataGenerator implements CommandLineRunner {
                 .decimal(250)
                 .build();
 
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(Ingredient.builder()
+        List<IngredientBB> ingredients = new ArrayList<>();
+        ingredients.add(IngredientBB.builder()
                 .isActive(true)
                 .build());
 

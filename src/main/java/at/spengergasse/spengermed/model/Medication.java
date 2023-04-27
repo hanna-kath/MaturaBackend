@@ -1,7 +1,6 @@
 package at.spengergasse.spengermed.model;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -52,7 +51,7 @@ public class Medication extends DomainResource {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "i_in_id", referencedColumnName = "id")
     @Builder.Default
-    private List<Ingredient> ingredient = new ArrayList<>();
+    private List<IngredientBB> ingredient = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "m_b_id", referencedColumnName = "id")

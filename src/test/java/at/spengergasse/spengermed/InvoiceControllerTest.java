@@ -1,11 +1,8 @@
 package at.spengergasse.spengermed;
 
-import at.spengergasse.spengermed.model.Condition;
-import at.spengergasse.spengermed.model.Group;
-import at.spengergasse.spengermed.model.GroupComponent;
-import at.spengergasse.spengermed.model.RiskAssessment;
-import at.spengergasse.spengermed.repository.GroupRepository;
-import at.spengergasse.spengermed.repository.RiskAssessmentRepository;
+import at.spengergasse.spengermed.model.ImmunizationRecommendation;
+import at.spengergasse.spengermed.model.Invoice;
+import at.spengergasse.spengermed.repository.InvoiceRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.val;
@@ -20,40 +17,26 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GroupControllerTest {
+public class InvoiceControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+
     @Autowired
     ObjectMapper om;
+
     @Autowired
-    GroupRepository groupRepository;
-
-
-    @Test
-    public void getAllGroups() {
-        try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/group"))
-                    .andDo(MockMvcResultHandlers.print())
-                    .andExpect(MockMvcResultMatchers.status().isOk());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    InvoiceRepository invoiceRepository;
 
     @Test
-    public void getAGroup(){
+    public void getAllInvoices() {
         try {
-            Group group = GroupRepositoryTest.returnOneGroup();
-            val id = groupRepository.save(group).getId();
-            mockMvc
-
-                    .perform(MockMvcRequestBuilders.get("/api/group/"+id))
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/invoice"))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk());
         } catch (Exception e) {
@@ -62,16 +45,26 @@ public class GroupControllerTest {
     }
 
     @Test
-    public void postAGroup(){
-        Group g = GroupRepositoryTest.returnOneGroup();
+    public void getAInvoice() throws Exception {
+        Invoice invoice = InvoiceRepositoryTest.returnOneInvoice();
+        val id = invoiceRepository.save(invoice).getId();
+        mockMvc
+                .perform(MockMvcRequestBuilders.get("/api/invoice/" + id))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void postAInvoice(){
+        Invoice invoice = InvoiceRepositoryTest.returnOneInvoice();
         String json= null;
         try {
-            json = om.writeValueAsString(g);
+            json = om.writeValueAsString(invoice);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         try {
-            mockMvc.perform(MockMvcRequestBuilders.post("/api/group")
+            mockMvc.perform(MockMvcRequestBuilders.post("/api/invoice")
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(json))
@@ -84,18 +77,18 @@ public class GroupControllerTest {
 
     @Test
     @Transactional
-    public void putAGroup() throws Exception {
-        Group g = groupRepository.save(GroupRepositoryTest.returnOneGroup());
-        val id = g.getId();
-        Entities.unsetAllIds(g);
+    public void putAInvoice() throws Exception {
+        Invoice invoice = invoiceRepository.save(InvoiceRepositoryTest.returnOneInvoice());
+        val id = invoice.getId();
+        Entities.unsetAllIds(invoice);
 
-        g.setId(UUID.fromString("abcb4c98-1234-11ed-abcd-0242ac120abc"));
-        //g.setCharacteristic(GroupComponent.Code.grouped)
+        invoice.setId(UUID.fromString("625e6cb8-1234-6513-9545-0242ac120002"));
+        invoice.setStatus(Invoice.code.cancelled);
 
-        String json = om.writeValueAsString(g);
+        String json = om.writeValueAsString(invoice);
         mockMvc
                 .perform(
-                        MockMvcRequestBuilders.put("/api/group/" + id)
+                        MockMvcRequestBuilders.put("/api/invoice/" + id)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
@@ -105,11 +98,11 @@ public class GroupControllerTest {
 
     @Test
     @Transactional
-    public void deleteAGroup() throws Exception {
-        Group g = GroupRepositoryTest.returnOneGroup();
-        Group gWithId = groupRepository.save(g);
+    public void deleteAInvoice() throws Exception {
+        Invoice i = InvoiceRepositoryTest.returnOneInvoice();
+        Invoice iWithId = invoiceRepository.save(i);
         mockMvc
-                .perform(MockMvcRequestBuilders.delete("/api/group/" + gWithId.getId()))
+                .perform(MockMvcRequestBuilders.delete("/api/invoice/" + iWithId.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }

@@ -25,7 +25,7 @@ public class Money extends Element {
     }
 
     @Column(name = "m_value")
-    private float value;
+    private double value;
 
     @Enumerated(EnumType.STRING)
     @Column(name="m_currency")

@@ -2,7 +2,6 @@ package at.spengergasse.spengermed;
 
 import at.spengergasse.spengermed.model.*;
 import at.spengergasse.spengermed.repository.MedicationRepository;
-import at.spengergasse.spengermed.repository.NutritionOrderRepository;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,8 +94,8 @@ public class MedicationRepositoryTest {
                 .decimal(250)
                 .build();
 
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(Ingredient.builder()
+        List<IngredientBB> ingredients = new ArrayList<>();
+        ingredients.add(IngredientBB.builder()
                 .isActive(true)
                 .build());
 

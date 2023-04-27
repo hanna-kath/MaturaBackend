@@ -1,11 +1,9 @@
 package at.spengergasse.spengermed;
 
-import at.spengergasse.spengermed.model.Condition;
-import at.spengergasse.spengermed.model.Group;
-import at.spengergasse.spengermed.model.GroupComponent;
-import at.spengergasse.spengermed.model.RiskAssessment;
-import at.spengergasse.spengermed.repository.GroupRepository;
-import at.spengergasse.spengermed.repository.RiskAssessmentRepository;
+import at.spengergasse.spengermed.model.Immunization;
+import at.spengergasse.spengermed.model.InventoryItem;
+import at.spengergasse.spengermed.repository.ImmunizationRepository;
+import at.spengergasse.spengermed.repository.InventoryItemRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.val;
@@ -24,36 +22,40 @@ import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GroupControllerTest {
+public class InventoryItemControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    MockMvc mockMvc;    //spezielle Art von Integrationstest - zwischen Unit und Integrationstest
+    // für einen Aufruf bestimmte externe URL definierte Werte zurückgeliefert, anstatt einen
+    // http-Aufruf des externen Dienstes auszuführen
+
     @Autowired
-    ObjectMapper om;
+    ObjectMapper om;    //provides functionality for reading and writing JSON
+
     @Autowired
-    GroupRepository groupRepository;
+    InventoryItemRepository inventoryItemRepository;
 
 
     @Test
-    public void getAllGroups() {
+    public void getAllInventoryItems() {
         try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/group"))
+            mockMvc.perform(MockMvcRequestBuilders
+                            .get("/api/inventoryitem"))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk());
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-
     @Test
-    public void getAGroup(){
+    public void getAInventoryItem(){
         try {
-            Group group = GroupRepositoryTest.returnOneGroup();
-            val id = groupRepository.save(group).getId();
+            InventoryItem inventoryItem = InventoryItemRepositoryTest.returnOneInventoryItem();
+            val id = inventoryItemRepository.save(inventoryItem).getId();
             mockMvc
 
-                    .perform(MockMvcRequestBuilders.get("/api/group/"+id))
+                    .perform(MockMvcRequestBuilders.get("/api/inventoryitem/" + id))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk());
         } catch (Exception e) {
@@ -62,16 +64,16 @@ public class GroupControllerTest {
     }
 
     @Test
-    public void postAGroup(){
-        Group g = GroupRepositoryTest.returnOneGroup();
+    public void postAnInventoryItem(){
+        InventoryItem inventoryItem = InventoryItemRepositoryTest.returnOneInventoryItem();
         String json= null;
         try {
-            json = om.writeValueAsString(g);
+            json = om.writeValueAsString(inventoryItem);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         try {
-            mockMvc.perform(MockMvcRequestBuilders.post("/api/group")
+            mockMvc.perform(MockMvcRequestBuilders.post("/api/inventoryitem/")
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(json))
@@ -84,18 +86,17 @@ public class GroupControllerTest {
 
     @Test
     @Transactional
-    public void putAGroup() throws Exception {
-        Group g = groupRepository.save(GroupRepositoryTest.returnOneGroup());
-        val id = g.getId();
-        Entities.unsetAllIds(g);
+    public void putAnInventoryItem() throws Exception {
+        InventoryItem inventoryItem = inventoryItemRepository.save(InventoryItemRepositoryTest.returnOneInventoryItem());
+        val id = inventoryItem.getId();
+        Entities.unsetAllIds(inventoryItem);
+        inventoryItem.setId(UUID.fromString("00000000-ab15-13ff-1345-000000000123"));
+        inventoryItem.setStatus(InventoryItem.StatusCode.active);
 
-        g.setId(UUID.fromString("abcb4c98-1234-11ed-abcd-0242ac120abc"));
-        //g.setCharacteristic(GroupComponent.Code.grouped)
-
-        String json = om.writeValueAsString(g);
+        String json = om.writeValueAsString(inventoryItem);
         mockMvc
                 .perform(
-                        MockMvcRequestBuilders.put("/api/group/" + id)
+                        MockMvcRequestBuilders.put("/api/inventoryitem/" + id)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
@@ -105,12 +106,13 @@ public class GroupControllerTest {
 
     @Test
     @Transactional
-    public void deleteAGroup() throws Exception {
-        Group g = GroupRepositoryTest.returnOneGroup();
-        Group gWithId = groupRepository.save(g);
+    public void deleteAnInventoryItem() throws Exception {
+        InventoryItem inventoryItem = InventoryItemRepositoryTest.returnOneInventoryItem();
+        InventoryItem iiWithId = inventoryItemRepository.save(inventoryItem);
         mockMvc
-                .perform(MockMvcRequestBuilders.delete("/api/group/" + gWithId.getId()))
+                .perform(MockMvcRequestBuilders.delete("/api/inventoryitem/" + iiWithId.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
 }

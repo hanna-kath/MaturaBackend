@@ -1,13 +1,11 @@
 package at.spengergasse.spengermed.model;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 @Entity
 @Getter
 @Setter
@@ -15,28 +13,50 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "in_ingredient")
 @SuperBuilder
-public class Ingredient extends BackboneElement{
+public class Ingredient extends DomainResource {
+
+    public enum code {
+        draft, active, retired, unknown;
+    }
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "in_itemcodeableconcept", referencedColumnName = "id")
-    private CodeableReference itemCodeableConcept;
+    @JoinColumn(name = "in_I_id", referencedColumnName = "id")
+    private Identifier identifier;
+
+    @Column(name="in_status")
+    private code status;
+
+    //Man kann das nicht for nennen, er checkt das nd dass es ein name ist und nicht die Schleife
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "re_in_for", referencedColumnName = "id")
+    private List<Reference> forr = new ArrayList<>();
+
+    @NotNull
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "in_cc_id", referencedColumnName = "id", nullable = false)
+    private CodeableConcept role;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cc_in_id", referencedColumnName = "id")
+    private List<CodeableConcept> function = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "in_itemreference", referencedColumnName = "id")
-    private Reference itemReference;
+    @JoinColumn(name = "in_cc_idcc", referencedColumnName = "id")
+    private CodeableConcept group;
 
-    @Column(name="in_isactive")
-    private Boolean isActive;
+    @Column(name="in_allergenicIndicator")
+    private Boolean allergenicIndicator;
 
+    @Column(name="in_comment")
+    private String comment;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ma_in_id", referencedColumnName = "id")
+    private List<Manufacturer> manufacturer = new ArrayList<>();
+
+    @NotNull
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "in_r_id", referencedColumnName = "id")
-    private Ratio strengthRatio;
+    @JoinColumn(name = "in_sub_id", referencedColumnName = "id", nullable = false)
+    private Substance substance;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "in_cc_id", referencedColumnName = "id")
-    private CodeableConcept strengthCodeableConcept;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "in_qu_id", referencedColumnName = "id")
-    private Quantity strengthQuantity;
 }

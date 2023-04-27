@@ -1,11 +1,8 @@
 package at.spengergasse.spengermed;
 
 import at.spengergasse.spengermed.model.Condition;
-import at.spengergasse.spengermed.model.Group;
-import at.spengergasse.spengermed.model.GroupComponent;
-import at.spengergasse.spengermed.model.RiskAssessment;
-import at.spengergasse.spengermed.repository.GroupRepository;
-import at.spengergasse.spengermed.repository.RiskAssessmentRepository;
+import at.spengergasse.spengermed.model.ImagingStudy;
+import at.spengergasse.spengermed.repository.ImagingStudyRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.val;
@@ -24,20 +21,18 @@ import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GroupControllerTest {
-
+public class ImagingStudyControllerTest {
     @Autowired
     MockMvc mockMvc;
     @Autowired
     ObjectMapper om;
     @Autowired
-    GroupRepository groupRepository;
-
+    ImagingStudyRepository imagingStudyRepository;
 
     @Test
-    public void getAllGroups() {
+    public void getAllImagingStudy() {
         try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/group"))
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/imagingstudy"))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk());
         } catch (Exception e) {
@@ -47,13 +42,13 @@ public class GroupControllerTest {
 
 
     @Test
-    public void getAGroup(){
+    public void getAImagingStudy(){
         try {
-            Group group = GroupRepositoryTest.returnOneGroup();
-            val id = groupRepository.save(group).getId();
+            ImagingStudy imagingStudy = ImagingStudyRepositoryTest.returnOneImagingStudy();
+            val id = imagingStudyRepository.save(imagingStudy).getId();
             mockMvc
 
-                    .perform(MockMvcRequestBuilders.get("/api/group/"+id))
+                    .perform(MockMvcRequestBuilders.get("/api/imagingstudy/"+id))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk());
         } catch (Exception e) {
@@ -62,16 +57,16 @@ public class GroupControllerTest {
     }
 
     @Test
-    public void postAGroup(){
-        Group g = GroupRepositoryTest.returnOneGroup();
+    public void postAImagingStudy(){
+        ImagingStudy is = ImagingStudyRepositoryTest.returnOneImagingStudy();
         String json= null;
         try {
-            json = om.writeValueAsString(g);
+            json = om.writeValueAsString(is);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         try {
-            mockMvc.perform(MockMvcRequestBuilders.post("/api/group")
+            mockMvc.perform(MockMvcRequestBuilders.post("/api/imagingstudy")
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(json))
@@ -84,18 +79,18 @@ public class GroupControllerTest {
 
     @Test
     @Transactional
-    public void putAGroup() throws Exception {
-        Group g = groupRepository.save(GroupRepositoryTest.returnOneGroup());
-        val id = g.getId();
-        Entities.unsetAllIds(g);
+    public void putAImagingStudy() throws Exception {
+        ImagingStudy is = imagingStudyRepository.save(ImagingStudyRepositoryTest.returnOneImagingStudy());
+        val id = is.getId();
+        Entities.unsetAllIds(is);
 
-        g.setId(UUID.fromString("abcb4c98-1234-11ed-abcd-0242ac120abc"));
+        is.setId(UUID.fromString("abcb4c98-1234-11ed-abcd-0242ac120abc"));
         //g.setCharacteristic(GroupComponent.Code.grouped)
 
-        String json = om.writeValueAsString(g);
+        String json = om.writeValueAsString(is);
         mockMvc
                 .perform(
-                        MockMvcRequestBuilders.put("/api/group/" + id)
+                        MockMvcRequestBuilders.put("/api/imagingstudy/" + id)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
@@ -105,11 +100,11 @@ public class GroupControllerTest {
 
     @Test
     @Transactional
-    public void deleteAGroup() throws Exception {
-        Group g = GroupRepositoryTest.returnOneGroup();
-        Group gWithId = groupRepository.save(g);
+    public void deleteAImagingStudy() throws Exception {
+        ImagingStudy is = ImagingStudyRepositoryTest.returnOneImagingStudy();
+        ImagingStudy gWithId = imagingStudyRepository.save(is);
         mockMvc
-                .perform(MockMvcRequestBuilders.delete("/api/group/" + gWithId.getId()))
+                .perform(MockMvcRequestBuilders.delete("/api/imagingstudy/" + gWithId.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }

@@ -1,11 +1,9 @@
 package at.spengergasse.spengermed;
-
 import at.spengergasse.spengermed.model.Condition;
-import at.spengergasse.spengermed.model.Group;
-import at.spengergasse.spengermed.model.GroupComponent;
-import at.spengergasse.spengermed.model.RiskAssessment;
-import at.spengergasse.spengermed.repository.GroupRepository;
-import at.spengergasse.spengermed.repository.RiskAssessmentRepository;
+import at.spengergasse.spengermed.model.ImagingSelection;
+import at.spengergasse.spengermed.model.ImmunizationEvaluation;
+import at.spengergasse.spengermed.repository.ImagingSelectionRepository;
+import at.spengergasse.spengermed.repository.ImmunizationEvaluationRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.val;
@@ -24,36 +22,37 @@ import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GroupControllerTest {
+public class ImagingSelectionControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-    @Autowired
-    ObjectMapper om;
-    @Autowired
-    GroupRepository groupRepository;
 
+    @Autowired
+    ObjectMapper om;    //provides functionality for reading and writing JSON
+
+    @Autowired
+    ImagingSelectionRepository imagingSelectionRepository;
 
     @Test
-    public void getAllGroups() {
+    public void getAllImagingSelections() {
         try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/group"))
+            mockMvc.perform(MockMvcRequestBuilders
+                            .get("/api/imagingselection"))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk());
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-
     @Test
-    public void getAGroup(){
+    public void getAImagingSelection(){
         try {
-            Group group = GroupRepositoryTest.returnOneGroup();
-            val id = groupRepository.save(group).getId();
+            ImagingSelection imagingSelection = ImagingSelectionRepositoryTest.returnOneImagingselection();
+            val id = imagingSelectionRepository.save(imagingSelection).getId();
             mockMvc
 
-                    .perform(MockMvcRequestBuilders.get("/api/group/"+id))
+                    .perform(MockMvcRequestBuilders.get("/api/imagingselection/" + id))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk());
         } catch (Exception e) {
@@ -62,16 +61,16 @@ public class GroupControllerTest {
     }
 
     @Test
-    public void postAGroup(){
-        Group g = GroupRepositoryTest.returnOneGroup();
+    public void postAImagingSelection(){
+        ImagingSelection imagingSelection = ImagingSelectionRepositoryTest.returnOneImagingselection();
         String json= null;
         try {
-            json = om.writeValueAsString(g);
+            json = om.writeValueAsString(imagingSelection);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         try {
-            mockMvc.perform(MockMvcRequestBuilders.post("/api/group")
+            mockMvc.perform(MockMvcRequestBuilders.post("/api/imagingselection/")
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(json))
@@ -84,18 +83,18 @@ public class GroupControllerTest {
 
     @Test
     @Transactional
-    public void putAGroup() throws Exception {
-        Group g = groupRepository.save(GroupRepositoryTest.returnOneGroup());
-        val id = g.getId();
-        Entities.unsetAllIds(g);
+    public void putAImagingSelection() throws Exception {
+        ImagingSelection imagingSelection = imagingSelectionRepository.save(ImagingSelectionRepositoryTest.returnOneImagingselection());
+        val id = imagingSelection.getId();
+        Entities.unsetAllIds(imagingSelection);
 
-        g.setId(UUID.fromString("abcb4c98-1234-11ed-abcd-0242ac120abc"));
-        //g.setCharacteristic(GroupComponent.Code.grouped)
+        imagingSelection.setId(UUID.fromString("625e51ba-2372-11ed-b5ea-0242ac120002"));
+        imagingSelection.setStatus(ImagingSelection.code.available);
 
-        String json = om.writeValueAsString(g);
+        String json = om.writeValueAsString(imagingSelection);
         mockMvc
                 .perform(
-                        MockMvcRequestBuilders.put("/api/group/" + id)
+                        MockMvcRequestBuilders.put("/api/imagingselection/" + id)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
@@ -105,11 +104,11 @@ public class GroupControllerTest {
 
     @Test
     @Transactional
-    public void deleteAGroup() throws Exception {
-        Group g = GroupRepositoryTest.returnOneGroup();
-        Group gWithId = groupRepository.save(g);
+    public void deleteAImagingSelection() throws Exception {
+        ImagingSelection imagingSelection = ImagingSelectionRepositoryTest.returnOneImagingselection();
+        ImagingSelection imagingSelectionWithId = imagingSelectionRepository.save(imagingSelection);
         mockMvc
-                .perform(MockMvcRequestBuilders.delete("/api/group/" + gWithId.getId()))
+                .perform(MockMvcRequestBuilders.delete("/api/imagingselection/" + imagingSelectionWithId.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }

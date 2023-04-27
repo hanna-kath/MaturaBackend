@@ -1,11 +1,7 @@
 package at.spengergasse.spengermed;
-
-import at.spengergasse.spengermed.model.Condition;
-import at.spengergasse.spengermed.model.Group;
-import at.spengergasse.spengermed.model.GroupComponent;
-import at.spengergasse.spengermed.model.RiskAssessment;
-import at.spengergasse.spengermed.repository.GroupRepository;
-import at.spengergasse.spengermed.repository.RiskAssessmentRepository;
+import at.spengergasse.spengermed.model.*;
+import at.spengergasse.spengermed.repository.IngredientRepository;
+import at.spengergasse.spengermed.repository.PatientRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.val;
@@ -22,38 +18,45 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+
+// Test, ob die Webschnittstelle so reagiert, wie sie sollte
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GroupControllerTest {
+public class IngredientControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    MockMvc mockMvc;    //spezielle Art von Integrationstest - zwischen Unit und Integrationstest
+    // für einen Aufruf bestimmte externe URL definierte Werte zurückgeliefert, anstatt einen
+    // http-Aufruf des externen Dienstes auszuführen
+
     @Autowired
-    ObjectMapper om;
+    ObjectMapper om;    //provides functionality for reading and writing JSON
+
     @Autowired
-    GroupRepository groupRepository;
+    IngredientRepository ingredientRepository;
 
 
     @Test
-    public void getAllGroups() {
+    public void getAllIngredients() {
         try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/group"))
+            mockMvc.perform(MockMvcRequestBuilders
+                            .get("/api/ingredient"))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk());
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
 
 
     @Test
-    public void getAGroup(){
+    public void getAnIngredient(){
         try {
-            Group group = GroupRepositoryTest.returnOneGroup();
-            val id = groupRepository.save(group).getId();
+            Ingredient ingredient = IngredientRepositoryTest.returnOneIngredient();
+            val id = ingredientRepository.save(ingredient).getId();
             mockMvc
 
-                    .perform(MockMvcRequestBuilders.get("/api/group/"+id))
+                    .perform(MockMvcRequestBuilders.get("/api/ingredient/" + id))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk());
         } catch (Exception e) {
@@ -62,16 +65,16 @@ public class GroupControllerTest {
     }
 
     @Test
-    public void postAGroup(){
-        Group g = GroupRepositoryTest.returnOneGroup();
+    public void postAnIngredient(){
+        Ingredient ingredient = IngredientRepositoryTest.returnOneIngredient();
         String json= null;
         try {
-            json = om.writeValueAsString(g);
+            json = om.writeValueAsString(ingredient);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         try {
-            mockMvc.perform(MockMvcRequestBuilders.post("/api/group")
+            mockMvc.perform(MockMvcRequestBuilders.post("/api/ingredient/")
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(json))
@@ -84,18 +87,16 @@ public class GroupControllerTest {
 
     @Test
     @Transactional
-    public void putAGroup() throws Exception {
-        Group g = groupRepository.save(GroupRepositoryTest.returnOneGroup());
-        val id = g.getId();
-        Entities.unsetAllIds(g);
+    public void putAnIngredient() throws Exception {
+        Ingredient ingredient = ingredientRepository.save(IngredientRepositoryTest.returnOneIngredient());
+        val id = ingredient.getId();
+        Entities.unsetAllIds(ingredient);
+        ingredient.setId(UUID.fromString("00000000-0000-2345-0000-000000000123"));
 
-        g.setId(UUID.fromString("abcb4c98-1234-11ed-abcd-0242ac120abc"));
-        //g.setCharacteristic(GroupComponent.Code.grouped)
-
-        String json = om.writeValueAsString(g);
+        String json = om.writeValueAsString(ingredient);
         mockMvc
                 .perform(
-                        MockMvcRequestBuilders.put("/api/group/" + id)
+                        MockMvcRequestBuilders.put("/api/ingredient/" + id)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
@@ -105,12 +106,13 @@ public class GroupControllerTest {
 
     @Test
     @Transactional
-    public void deleteAGroup() throws Exception {
-        Group g = GroupRepositoryTest.returnOneGroup();
-        Group gWithId = groupRepository.save(g);
+    public void deleteAnIngredient() throws Exception {
+        Ingredient e = IngredientRepositoryTest.returnOneIngredient();
+        Ingredient eWithId = ingredientRepository.save(e);
         mockMvc
-                .perform(MockMvcRequestBuilders.delete("/api/group/" + gWithId.getId()))
+                .perform(MockMvcRequestBuilders.delete("/api/ingredient/" + eWithId.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
 }

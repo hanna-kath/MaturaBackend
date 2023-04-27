@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@Table(name = "r_ratio")
+@Table(name = "rat_ratio")
 public class Ratio extends Element{
 
     @OneToOne(cascade = CascadeType.ALL)

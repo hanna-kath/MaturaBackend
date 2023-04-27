@@ -1,11 +1,8 @@
 package at.spengergasse.spengermed;
 
-import at.spengergasse.spengermed.model.Condition;
-import at.spengergasse.spengermed.model.Group;
-import at.spengergasse.spengermed.model.GroupComponent;
-import at.spengergasse.spengermed.model.RiskAssessment;
-import at.spengergasse.spengermed.repository.GroupRepository;
-import at.spengergasse.spengermed.repository.RiskAssessmentRepository;
+import at.spengergasse.spengermed.model.ImagingSelection;
+import at.spengergasse.spengermed.model.Immunization;
+import at.spengergasse.spengermed.repository.ImmunizationRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.val;
@@ -22,38 +19,44 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+
+// Test, ob die Webschnittstelle so reagiert, wie sie sollte
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GroupControllerTest {
+public class ImmunizationControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    MockMvc mockMvc;    //spezielle Art von Integrationstest - zwischen Unit und Integrationstest
+    // für einen Aufruf bestimmte externe URL definierte Werte zurückgeliefert, anstatt einen
+    // http-Aufruf des externen Dienstes auszuführen
+
     @Autowired
-    ObjectMapper om;
+    ObjectMapper om;    //provides functionality for reading and writing JSON
+
     @Autowired
-    GroupRepository groupRepository;
+    ImmunizationRepository immunizationRepository;
 
 
     @Test
-    public void getAllGroups() {
+    public void getAllImmunizations() {
         try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/group"))
+            mockMvc.perform(MockMvcRequestBuilders
+                            .get("/api/immunization"))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk());
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-
     @Test
-    public void getAGroup(){
+    public void getAImmunization(){
         try {
-            Group group = GroupRepositoryTest.returnOneGroup();
-            val id = groupRepository.save(group).getId();
+            Immunization immunization = ImmunizationRepositoryTest.returnOneImmunization();
+            val id = immunizationRepository.save(immunization).getId();
             mockMvc
 
-                    .perform(MockMvcRequestBuilders.get("/api/group/"+id))
+                    .perform(MockMvcRequestBuilders.get("/api/immunization/" + id))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk());
         } catch (Exception e) {
@@ -62,16 +65,16 @@ public class GroupControllerTest {
     }
 
     @Test
-    public void postAGroup(){
-        Group g = GroupRepositoryTest.returnOneGroup();
+    public void postAnImmunization(){
+        Immunization immunization = ImmunizationRepositoryTest.returnOneImmunization();
         String json= null;
         try {
-            json = om.writeValueAsString(g);
+            json = om.writeValueAsString(immunization);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         try {
-            mockMvc.perform(MockMvcRequestBuilders.post("/api/group")
+            mockMvc.perform(MockMvcRequestBuilders.post("/api/immunization/")
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(json))
@@ -84,18 +87,17 @@ public class GroupControllerTest {
 
     @Test
     @Transactional
-    public void putAGroup() throws Exception {
-        Group g = groupRepository.save(GroupRepositoryTest.returnOneGroup());
-        val id = g.getId();
-        Entities.unsetAllIds(g);
+    public void putAnImmunization() throws Exception {
+        Immunization immunization = immunizationRepository.save(ImmunizationRepositoryTest.returnOneImmunization());
+        val id = immunization.getId();
+        Entities.unsetAllIds(immunization);
+        immunization.setId(UUID.fromString("00000000-ab15-13ff-1345-000000000123"));
+        immunization.setStatus(Immunization.code.completed);
 
-        g.setId(UUID.fromString("abcb4c98-1234-11ed-abcd-0242ac120abc"));
-        //g.setCharacteristic(GroupComponent.Code.grouped)
-
-        String json = om.writeValueAsString(g);
+        String json = om.writeValueAsString(immunization);
         mockMvc
                 .perform(
-                        MockMvcRequestBuilders.put("/api/group/" + id)
+                        MockMvcRequestBuilders.put("/api/immunization/" + id)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
@@ -105,12 +107,14 @@ public class GroupControllerTest {
 
     @Test
     @Transactional
-    public void deleteAGroup() throws Exception {
-        Group g = GroupRepositoryTest.returnOneGroup();
-        Group gWithId = groupRepository.save(g);
+    public void deleteAnImmunization() throws Exception {
+        Immunization e = ImmunizationRepositoryTest.returnOneImmunization();
+        Immunization eWithId = immunizationRepository.save(e);
         mockMvc
-                .perform(MockMvcRequestBuilders.delete("/api/group/" + gWithId.getId()))
+                .perform(MockMvcRequestBuilders.delete("/api/immunization/" + eWithId.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
+
 }
