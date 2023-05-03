@@ -52,7 +52,6 @@ public class ImplementationGuide extends DomainResource{
     @Column(name = "ig_name")
     private String name;
 
-    @NotNull
     @Column(name = "ig_title")
     private String title;
 
@@ -98,8 +97,7 @@ public class ImplementationGuide extends DomainResource{
     private String packageId;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
-    @Column(name = "ig_license", nullable = false)
+    @Column(name = "ig_license")
     private License license;
 
     @NotNull
