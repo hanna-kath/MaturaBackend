@@ -1,9 +1,6 @@
 package at.spengergasse.spengermed.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -28,6 +25,7 @@ public class Narrative extends Element {
     empty
   }
 
+  @Enumerated(EnumType.STRING)
   @NotNull(message = "Der status von Narrative muss einen Wert haben")
   @Column(name = "n_status", nullable = false)
   private NarrativeCode status;
