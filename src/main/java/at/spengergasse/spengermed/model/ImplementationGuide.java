@@ -5,6 +5,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,7 @@ public class ImplementationGuide extends DomainResource{
     private Boolean experimental;
 
     @Column(name = "ig_date")
-    private LocalDateTime date;
+    private LocalDate date;
 
     @Column(name = "ig_publisher")
     private String publisher;

@@ -2,6 +2,7 @@ package at.spengergasse.spengermed.controller;
 
 import at.spengergasse.spengermed.model.ImplementationGuide;
 import at.spengergasse.spengermed.repository.ImplementationGuideRepository;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,9 @@ public class ImplementationGuideController {
 
     @Autowired
     private ImplementationGuideRepository igRepository;
+
+    @Autowired
+    private Gson gson;
 
     @GetMapping
     @ResponseBody
@@ -36,7 +40,10 @@ public class ImplementationGuideController {
     @Transactional
     @PostMapping()
     public ResponseEntity<ImplementationGuide> createImplementationGuide(@Valid @RequestBody
-                                                               ImplementationGuide ig) {
+                                                               String igstr) {
+
+        ImplementationGuide ig = gson.fromJson(igstr, ImplementationGuide.class);
+
         ig.setId(null);
         var saved = igRepository.save(ig);
         return ResponseEntity
@@ -46,7 +53,10 @@ public class ImplementationGuideController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ImplementationGuide> updateImplementationGuide(
-            @PathVariable("id") UUID igId, @Valid @RequestBody ImplementationGuide igDetails) {
+            @PathVariable("id") UUID igId, @Valid @RequestBody String igDetailsStr) {
+
+        ImplementationGuide igDetails = gson.fromJson(igDetailsStr, ImplementationGuide.class);
+
         return igRepository
                 .findById(igId)
                 .map(
@@ -81,7 +91,7 @@ public class ImplementationGuideController {
                             ImplementationGuide updatedIg = igRepository.save(ig);
                             return ResponseEntity.ok(updatedIg);
                         })
-                .orElseGet(() -> createImplementationGuide(igDetails));
+                .orElseGet(() -> createImplementationGuide(igDetailsStr));
     }
 
     @DeleteMapping("/{id}")
