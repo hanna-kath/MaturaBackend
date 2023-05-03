@@ -13,9 +13,7 @@ import java.util.Locale;
 @Component
 public class LocalDateTimeJSONAdapter implements JsonDeserializer<LocalDateTime>, JsonSerializer<LocalDateTime> {
 
-    private static final DateTimeFormatter javascriptDateFormat = 
-//        DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.GERMAN);
-            DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.GERMAN);
+    private static final DateTimeFormatter javascriptDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.GERMAN);
 
 
     @Override
